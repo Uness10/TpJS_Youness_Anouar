@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10%;
+            box-sizing: border-box;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        span {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        #table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-bottom: 20px;
+        }
+
+        #table tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #table td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form id="frm">
+        <div id="dim">
+            <label for="dimIn">Dimension du tableau :</label>
+            <input type="number" id="dimIn" required> 
+        </div>
+        <div id="min">
+            <label for="minIn">La valeur minimale :</label>
+            <input type="number" id="minIn" required>
+        </div>
+        <div id="max">
+            <label for="maxIn">La valeur maximale :</label>
+            <input type="number" id="maxIn" required>
+        </div>
+       
+        <button type="submit">Générer un tableau</button>
+    </form>
+    <span>Résultats :</span>
+    <table id="table"></table>
+
+    <script>
+
+        document.getElementById("frm").addEventListener("submit",function(event) {
+            event.preventDefault(); 
+            generate();
+        });
+
+        function generate(){
+            let er = document.createElement("div") ;
+            er.style.color = "red";
+            er.style.fontWeight="bold";
+            er.style.marginTop = "10px";
+            let dim = parseInt(document.querySelector("#dim input").value) ;
+            let min = parseFloat(document.querySelector("#min input").value) ; 
+            let max =  parseFloat(document.querySelector("#max input").value) ; 
+
+            if(isNaN(dim) || dim<=0){
+                er.textContent = "Entrer une dimension valide" ;
+                document.querySelector("#dim").appendChild(er);
+
+            }
+            if(isNaN(min)){
+                er.textContent = "Entrer une valeur minimale valide" ;
+                document.querySelector("#min").appendChild(er);
+            }
+            console.log(min,max);
+            if(isNaN(max) || max<=min){
+                
+                er.textContent = "Entrer une valeur maximale valide" ;
+                document.querySelector("#max").appendChild(er);
+            }
+
+            let table = document.getElementById("table") ; 
+            table.innerHTML = "";
+
+            for (let i = 0; i < dim; i++) {
+                if (i % 10 == 0) {
+                    var row = table.insertRow();
+                }
+                let x = Math.random() * (max - min) + min;
+                x = Math.round(x);
+                let cell = row.insertCell();
+                cell.textContent = x;
+            }
+        }
+    </script>
+</body>
+</html>
